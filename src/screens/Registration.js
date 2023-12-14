@@ -1,29 +1,22 @@
-import {
-  SafeAreaView,
-  View,
-  Text,
-  StyleSheet,
-  TextInput,
-  TouchableOpacity,
-} from 'react-native';
+import {SafeAreaView, View, Text, StyleSheet, TextInput, TouchableOpacity} from 'react-native';
 import {useState} from 'react';
 import Button from '../components/Button';
 import SocialButton from '../components/SocialButton';
 import {useNavigation} from '@react-navigation/native';
 
-export default function Login() {
+export default function Registration() {
   // const { name } = route.params;
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const navigation = useNavigation();
-
+  
   return (
     <SafeAreaView style={styles.container}>
       {/* Form Heading */}
 
       <View style={styles.txtContainer}>
-        <Text style={styles.txtHeading}>Sign In With Email</Text>
-        <Text style={styles.txtContent}>Input you registered account</Text>
+        <Text style={styles.txtHeading}>Sign Up With Email</Text>
+        <Text style={styles.txtContent}>Create account and enjoy your workout!</Text>
       </View>
 
       {/* // Form Fields */}
@@ -44,6 +37,21 @@ export default function Login() {
         <View style={styles.spacing} />
 
         <View style={styles.inputContainer}>
+          <Text style={styles.label}>Email</Text>
+          <TextInput
+            style={styles.input}
+            value={email}
+            onChangeText={text => setEmail(text)}
+            placeholder="Enter your email"
+            keyboardType="email-address"
+            autoCapitalize="none"
+          />
+        </View>
+
+        <View style={styles.spacing} />
+        
+
+        <View style={styles.inputContainer}>
           <Text style={styles.label}>Password</Text>
           <TextInput
             style={styles.input}
@@ -54,12 +62,9 @@ export default function Login() {
           />
         </View>
 
-        <View style={styles.forgotContainer}>
-          <Text style={styles.txtForgot}>Forgot Password?</Text>
-        </View>
 
-        <View style={styles.btnContainer}>
-          <Button title="Sign In" onPress={() => navigation.navigate('Home')} />
+        <View>
+          <Button title="Sign Up" onPress={() => navigation.navigate('Connect')}/>
         </View>
 
         <View style={styles.optionContainer}>
@@ -80,13 +85,10 @@ export default function Login() {
 
         <View style={styles.signUpContainer}>
           <View>
-            <Text>Don't Have An Account?</Text>
+            <Text>Have An Account?</Text>
           </View>
-          <TouchableOpacity
-            onPress={() => {
-              navigation.navigate('Register');
-            }}>
-            <Text style={styles.txtSignUp}>Sign Up Here</Text>
+          <TouchableOpacity onPress={() => navigation.navigate('Login')}>
+            <Text style={styles.txtSignUp}>Sign In Here</Text>
           </TouchableOpacity>
         </View>
       </View>
@@ -147,9 +149,6 @@ const styles = StyleSheet.create({
     marginBottom: 15,
   },
 
-  btnContainer: {
-    marginTop: 24,
-  },
 
   forgotContainer: {
     marginTop: 1,
@@ -183,16 +182,16 @@ const styles = StyleSheet.create({
   },
 
   signUpContainer: {
-    marginTop: 24,
-    flexDirection: 'row',
-    justifyContent: 'center',
-    width: '100%',
-    alignItems: 'center',
-    gap: 5,
+      marginTop: 24,
+      flexDirection: 'row',
+      justifyContent: 'center',
+      width: '100%',
+      alignItems: 'center',
+      gap: 5
   },
 
   txtSignUp: {
     color: '#F57B36',
-    fontWeight: '400',
+    fontWeight: '400'
   },
 });
