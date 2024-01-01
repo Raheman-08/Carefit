@@ -7,8 +7,8 @@ import Registration from './src/screens/Registration';
 import HomeScreen from './src/screens/HomeScreen';
 import WatchConnect from './src/screens/WatchConnect';
 
-
 const Stack = createNativeStackNavigator();
+
 
 export default function App() {
   return (

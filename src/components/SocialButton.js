@@ -1,6 +1,6 @@
 import { Text, View, StyleSheet, TouchableOpacity } from 'react-native';
 
-const SocialButton = ({title, onPress}) => {
+const SocialButton = ({ title, onPress }) => {
     return(
         <TouchableOpacity style={styles.button} onPress={onPress}>
             <Text style={styles.text}>{title}</Text>

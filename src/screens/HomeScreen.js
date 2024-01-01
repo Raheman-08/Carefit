@@ -6,6 +6,7 @@ import {
   Image,
   TouchableOpacity,
   ScrollView,
+  TouchableWithoutFeedback,
 } from 'react-native';
 import {avatar} from '../assets/image/avatar';
 import Icon from 'react-native-vector-icons/AntDesign';
@@ -16,31 +17,31 @@ import {useState} from 'react';
 import {isToday} from 'date-fns';
 import {useEffect} from 'react';
 import ProgressRing from '../components/ProgressRing';
-import ActivityCard from '../components/ActivityCard';
+import BottomDrawer from '../components/BottomDrawer';
+// import ActivityCard from '../components/ActivityCard';
 import InfoCard from '../components/InfoCard';
+// import BottomDrawer from '../components/BottomDrawer';
+import {useNavigation} from '@react-navigation/native';
 
 export default function HomeScreen() {
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
   const [selectedDate, setSelectedDate] = useState(null);
   const [progress, setProgress] = useState(0.2);
 
-  const data = [
-    {
-      name: 'Sleep',
-      percent: 0.8, // Adjust the percent as needed
-      color: '#FF5757', // Customize the color
-    },
-    {
-      name: 'Exercise',
-      percent: 0.6,
-      color: '#57FF57',
-    },
-    {
-      name: 'Stand',
-      percent: 0.4,
-      color: '#5757FF',
-    },
-  ];
+  const [bottomSheetVisible, setBottomSheetVisible] = useState(false);
+  const [heading, setHeading] = useState(""); 
+
+  const openBottomSheet = (type) => {
+    console.log(type,"hello world")
+    setHeading(type);
+    setBottomSheetVisible(true);
+  };
+
+  const closeBottomSheet = () => {
+    setBottomSheetVisible(false);
+  };
+
+  const navigation = useNavigation();
 
   const chartConfig = {
     backgroundGradientFrom: '#1E2923',
@@ -193,6 +194,8 @@ export default function HomeScreen() {
               }
               measurement="620.84"
               unit="kcal"
+              // onPress={() => navigation.navigate('CalorieDetail')}
+              onPress= {()=>openBottomSheet("Calories")}
             />
 
             <InfoCard
@@ -205,6 +208,7 @@ export default function HomeScreen() {
               }
               measurement="74"
               unit="bpm"
+              onPress= {()=>openBottomSheet("Heart")}
             />
           </View>
 
@@ -219,6 +223,7 @@ export default function HomeScreen() {
               }
               measurement="90"
               unit="stress level"
+              onPress= {()=>openBottomSheet("Stress")}
             />
 
             <InfoCard
@@ -231,13 +236,29 @@ export default function HomeScreen() {
               }
               measurement="620.84"
               unit="sp02"
+              onPress= {()=>openBottomSheet("Oxygen")}
             />
           </View>
         </View>
 
         {/* <View>
+          <BottomSheet
+            visible={this.state.visible}
+            onBackdropPress={() => this.setState({visible: false})}
+            height={400}>
+            <View style={styles.content}>
+              <Text>This is the content of the bottom sheet!</Text>
+            </View>
+          </BottomSheet>
+        </View> */}
+
+        {/* <View>
           <Image source='.' />
         </View> */}
+
+        <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+        <BottomDrawer isVisible={bottomSheetVisible} onClose={closeBottomSheet} heading={heading} />
+        </View>
       </ScrollView>
     </SafeAreaView>
   );
@@ -343,7 +364,7 @@ const styles = StyleSheet.create({
   txtHeading: {
     fontSize: 24,
     fontWeight: 'bold',
-    color: '#000000'
+    color: '#000000',
   },
 
   // mapContent: {
@@ -360,12 +381,12 @@ const styles = StyleSheet.create({
   cardContainer: {
     marginTop: 20,
     flexDirection: 'row',
-    justifyContent: 'space-between'
+    justifyContent: 'space-between',
   },
 
   secondContainer: {
     marginTop: 12,
     flexDirection: 'row',
-    justifyContent: 'space-between'
+    justifyContent: 'space-between',
   },
 });

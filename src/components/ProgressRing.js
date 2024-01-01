@@ -1,53 +1,7 @@
-// import {ProgressChart} from 'react-native-chart-kit';
-// import {View, Text, Dimensions} from 'react-native';
-
-// const screenWidth = Dimensions.get('window').width;
-// const data = {
-//   labels: ['Swim', 'Bike', 'Run'], // optional
-//   data: [0.4, 0.6, 0.8],
-// };
-// // const chartConfig = {};
-
-// const ProgressRing = () => {
-//   return (
-//     <View>
-//       <ProgressChart
-//         data={data}
-//         width={screenWidth}
-//         height={220}
-//         strokeWidth={16}
-//         radius={32}
-//         chartConfig={{
-//           backgroundColor: 'rgba(0, 0, 0, 0)', // Set to "transparent" or undefined
-//           backgroundGradientFrom: "#fff",
-//           backgroundGradientTo: "#e2e2e2",
-//           decimalPlaces: 2, // optional, defaults to 2dp
-//           color: (opacity = 1) => `rgba(13, 136, 56, ${opacity})`,
-//           labelColor: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`,
-//           style: {
-//             borderRadius: 16,
-//           },
-//           propsForDots: {
-//             r: "6",
-//             strokeWidth: "2",
-//             stroke: "#218838",
-//           },
-//         }}
-//         style={{
-//           marginVertical: 8,
-//           borderRadius: 16,
-//         }}
-//         hideLegend={false}
-//       />
-//     </View>
-//   );
-// };
-
-// export default ProgressRing;
-
 import React from 'react';
 import { View } from 'react-native';
 import { ProgressCircle } from 'react-native-svg-charts';
+
 
 const ProgressRing = ({ progress, innerProgress, middleProgress }) => {
   const ringSize = 200;
@@ -134,5 +88,3 @@ const ProgressRing = ({ progress, innerProgress, middleProgress }) => {
 };
 
 export default ProgressRing;
-
-

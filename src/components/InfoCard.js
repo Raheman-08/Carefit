@@ -1,9 +1,9 @@
-import {View, Text, StyleSheet} from 'react-native';
+import {View, Text, StyleSheet, Pressable} from 'react-native';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 
-const InfoCard = ({type, measurement, unit, icon}) => {
+const InfoCard = ({type, measurement, unit, icon, onPress}) => {
   return (
-    <View style={styles.cardContainer}>
+    <Pressable style={styles.cardContainer} onPress={onPress}>
       <View style={styles.headerContainer}>
         <Text style={styles.typeText}>{type}</Text>
         {icon && <View style={styles.iconContainer}>{icon}</View>}
@@ -13,7 +13,7 @@ const InfoCard = ({type, measurement, unit, icon}) => {
         <Text style={styles.numberText}>{measurement}</Text>
         <Text style={styles.txtUnit}>{unit}</Text>
       </View>
-    </View>
+    </Pressable>
   );
 };
 
