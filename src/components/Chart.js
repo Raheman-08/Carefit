@@ -59,7 +59,7 @@ import { View, Text } from 'react-native';
 import { ProgressCircle } from 'react-native-svg-charts';
 import Svg, { Text as SvgText } from 'react-native-svg';
 
-const Chart = ({ progress, innerProgress, middleProgress, text, additionalText }) => {
+const Chart = ({ progress, text, additionalText }) => {
   const ringSize = 200;
   const strokeWidth = 15; // Adjust the thickness of the ring
   const greyColor = '#F2F2F2';
@@ -78,7 +78,7 @@ const Chart = ({ progress, innerProgress, middleProgress, text, additionalText }
       {/* Progress circle */}
       <ProgressCircle
         style={{ height: ringSize, width: ringSize, position: 'absolute' }}
-        progress={progress}
+        progress={parseFloat(progress)} 
         progressColor={'#65CF58'} // Adjust color for the progress ring
         backgroundColor={'rgba(0, 0, 0, 0)'}
         strokeWidth={strokeWidth}

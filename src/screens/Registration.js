@@ -6,6 +6,7 @@ import {useNavigation} from '@react-navigation/native';
 
 export default function Registration() {
   // const { name } = route.params;
+  const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const navigation = useNavigation();
@@ -23,14 +24,13 @@ export default function Registration() {
 
       <View style={styles.formContainer}>
         <View style={styles.inputContainer}>
-          <Text style={styles.label}>Email</Text>
+          <Text style={styles.label}>Name</Text>
           <TextInput
             style={styles.input}
-            value={email}
-            onChangeText={text => setEmail(text)}
-            placeholder="Enter your email"
-            keyboardType="email-address"
-            autoCapitalize="none"
+            value={name}  // Use the 'name' state variable
+            onChangeText={text => setName(text)}  // Update the 'name' state variable
+            placeholder="Enter your name"
+            autoCapitalize="none"  // No need for keyboardType="email-address" for name
           />
         </View>
 

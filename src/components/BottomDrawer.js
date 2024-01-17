@@ -1,6 +1,6 @@
 // BottomSheet.js
-import React from 'react';
-import {View, Text, TouchableOpacity, StyleSheet, ScrollView} from 'react-native';
+import React, { useState } from 'react';
+import {View, Text, TouchableOpacity, StyleSheet, ScrollView, ProgressBarAndroid} from 'react-native';
 import Modal from 'react-native-modal';
 import {Dimensions} from 'react-native';
 import Chart from './Chart';
@@ -8,6 +8,9 @@ import DataList from './DataList';
 
 
 const BottomDrawer = ({isVisible, onClose, heading}) => {
+
+  // const [progress, setProgress] = useState("");
+
   return (
     <Modal
       isVisible={isVisible}

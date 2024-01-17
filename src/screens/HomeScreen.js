@@ -13,26 +13,28 @@ import Icon from 'react-native-vector-icons/AntDesign';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import FontAwesome6 from 'react-native-vector-icons/FontAwesome6';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
-import {useState} from 'react';
+import {useState, useEffect} from 'react';
 import {isToday} from 'date-fns';
-import {useEffect} from 'react';
 import ProgressRing from '../components/ProgressRing';
 import BottomDrawer from '../components/BottomDrawer';
 // import ActivityCard from '../components/ActivityCard';
 import InfoCard from '../components/InfoCard';
 // import BottomDrawer from '../components/BottomDrawer';
 import {useNavigation} from '@react-navigation/native';
+import BottomBar from './Navigation/BottomBar';
 
 export default function HomeScreen() {
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
   const [selectedDate, setSelectedDate] = useState(null);
-  const [progress, setProgress] = useState(0.2);
+  // const [progress, setProgress] = useState(0.2);
 
   const [bottomSheetVisible, setBottomSheetVisible] = useState(false);
-  const [heading, setHeading] = useState(""); 
+  const [heading, setHeading] = useState('');
+  // const [progress, setProgress] = useState("");
 
-  const openBottomSheet = (type) => {
-    console.log(type,"hello world")
+  const openBottomSheet = type => {
+    // console.log(newprogress, "world")
+    // setProgress(newprogress);
     setHeading(type);
     setBottomSheetVisible(true);
   };
@@ -73,6 +75,7 @@ export default function HomeScreen() {
 
   return (
     <SafeAreaView style={styles.container}>
+      
       <ScrollView>
         <View style={styles.headerContainer}>
           <View style={styles.infoContainer}>
@@ -195,7 +198,7 @@ export default function HomeScreen() {
               measurement="620.84"
               unit="kcal"
               // onPress={() => navigation.navigate('CalorieDetail')}
-              onPress= {()=>openBottomSheet("Calories")}
+              onPress={() => openBottomSheet('Calories Detail')}
             />
 
             <InfoCard
@@ -208,7 +211,7 @@ export default function HomeScreen() {
               }
               measurement="74"
               unit="bpm"
-              onPress= {()=>openBottomSheet("Heart")}
+              onPress={() => openBottomSheet('Heart Rate Details')}
             />
           </View>
 
@@ -223,7 +226,7 @@ export default function HomeScreen() {
               }
               measurement="90"
               unit="stress level"
-              onPress= {()=>openBottomSheet("Stress")}
+              onPress={() => openBottomSheet('Stress Level Details')}
             />
 
             <InfoCard
@@ -236,7 +239,7 @@ export default function HomeScreen() {
               }
               measurement="620.84"
               unit="sp02"
-              onPress= {()=>openBottomSheet("Oxygen")}
+              onPress={() => openBottomSheet('Oxygen Level Details')}
             />
           </View>
         </View>
@@ -256,10 +259,17 @@ export default function HomeScreen() {
           <Image source='.' />
         </View> */}
 
+        
+
         <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-        <BottomDrawer isVisible={bottomSheetVisible} onClose={closeBottomSheet} heading={heading} />
-        </View>
+          <BottomDrawer
+            isVisible={bottomSheetVisible}
+            onClose={closeBottomSheet}
+            heading={heading}
+          />
+        </View>        
       </ScrollView>
+      <BottomBar />
     </SafeAreaView>
   );
 }

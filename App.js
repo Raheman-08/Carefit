@@ -6,19 +6,24 @@ import LoginScreen from './src/screens/LoginScreen';
 import Registration from './src/screens/Registration';
 import HomeScreen from './src/screens/HomeScreen';
 import WatchConnect from './src/screens/WatchConnect';
+import History from './src/screens/History';
+import Setting from './src/screens/Setting';
+
 
 const Stack = createNativeStackNavigator();
 
 
 export default function App() {
   return (
-    <NavigationContainer>
-    <Stack.Navigator initialRouteName="Splash">
+    <NavigationContainer navigationOptions={{gesturesEnabled: false}}>
+    <Stack.Navigator initialRouteName="History">
       <Stack.Screen options={{headerShown: false}} name="Splash" component={SplashScreen} />
       <Stack.Screen options={{headerShown: false}} name="Login" component={LoginScreen} />
       <Stack.Screen options={{headerShown: false}} name="Register" component={Registration} />
       <Stack.Screen options={{headerShown: false}} name="Connect" component={WatchConnect} />
       <Stack.Screen options={{headerShown: false}} name="Home" component={HomeScreen} />
+      <Stack.Screen options={{headerShown: false}} name="History" component={History} />
+      <Stack.Screen options={{headerShown: false}} name="Setting" component={Setting} />
     </Stack.Navigator>
     </NavigationContainer>
   );
