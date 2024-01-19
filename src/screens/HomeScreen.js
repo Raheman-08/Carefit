@@ -76,7 +76,6 @@ export default function HomeScreen() {
   return (
     <SafeAreaView style={styles.container}>
       
-      <ScrollView>
         <View style={styles.headerContainer}>
           <View style={styles.infoContainer}>
             <View>
@@ -114,6 +113,8 @@ export default function HomeScreen() {
             <Icon name="calendar" style={styles.icon} />
           </TouchableOpacity>
         </View>
+
+        <ScrollView>
 
         <View style={styles.chartContainer}>
           <View>
