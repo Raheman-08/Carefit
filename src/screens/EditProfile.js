@@ -5,18 +5,33 @@ import {
   StyleSheet,
   Image,
   TouchableOpacity,
-  TextInput
+  TextInput,
 } from 'react-native';
 import React from 'react';
 import { useState } from 'react';
-import {avatar} from '../assets/image/avatar';
+import { avatar } from '../assets/image/avatar';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import Button from '../components/Button';
+import ImagePicker from 'react-native-image-crop-picker';
 
 const EditProfile = () => {
-    const [name, setName] = useState('');
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [profile, setProfile] = useState(null);
+
+  const pickImage = () => {
+    ImagePicker.openPicker({
+      width: 400,
+      height: 400,
+      cropping: true,
+    })
+      .then(image => {
+        // console.log(image);
+        setProfile(image.path)
+      })
+  };
+
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.txtContainer}>
@@ -25,8 +40,8 @@ const EditProfile = () => {
 
       <View style={styles.profileContainer}>
         <View style={styles.imgContainer}>
-          <Image style={styles.img} source={avatar} />
-          <TouchableOpacity style={styles.editContainer}>
+          <Image style={styles.img} source={profile ? {uri: profile} : avatar} />
+          <TouchableOpacity onPress={pickImage} style={styles.editContainer}>
             <MaterialCommunityIcons
               name="circle-edit-outline"
               style={styles.editIcons}
@@ -43,10 +58,10 @@ const EditProfile = () => {
           <Text style={styles.label}>Name</Text>
           <TextInput
             style={styles.input}
-            value={name}  // Use the 'name' state variable
-            onChangeText={text => setName(text)}  // Update the 'name' state variable
+            value={name}
+            onChangeText={text => setName(text)}
             placeholder="Enter your name"
-            autoCapitalize="none"  // No need for keyboardType="email-address" for name
+            autoCapitalize="none"
           />
         </View>
 
@@ -65,7 +80,6 @@ const EditProfile = () => {
         </View>
 
         <View style={styles.spacing} />
-        
 
         <View style={styles.inputContainer}>
           <Text style={styles.label}>Password</Text>
@@ -78,11 +92,9 @@ const EditProfile = () => {
           />
         </View>
 
-
         <View>
           <Button title="Save" />
         </View>
-
       </View>
     </SafeAreaView>
   );

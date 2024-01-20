@@ -13,11 +13,17 @@ import Privacy from './src/screens/Privacy';
 
 const Stack = createNativeStackNavigator();
 
+// const HomeStack = () => {
+//   <Stack.Navigator>
+//     <Stack.Screen options={{headerShown: false}} name="" />
+//   </Stack.Navigator>
+// }
+
 
 export default function App() {
   return (
     <NavigationContainer navigationOptions={{gesturesEnabled: false}}>
-    <Stack.Navigator initialRouteName="Home">
+    <Stack.Navigator initialRouteName="Splash">
       <Stack.Screen options={{headerShown: false}} name="Splash" component={SplashScreen} />
       <Stack.Screen options={{headerShown: false}} name="Login" component={LoginScreen} />
       <Stack.Screen options={{headerShown: false}} name="Register" component={Registration} />
