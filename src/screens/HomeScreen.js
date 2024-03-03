@@ -22,6 +22,7 @@ import InfoCard from '../components/InfoCard';
 // import BottomDrawer from '../components/BottomDrawer';
 import {useNavigation} from '@react-navigation/native';
 import BottomBar from './Navigation/BottomBar';
+import { HomeTabNavigator } from '../../App';
 
 export default function HomeScreen() {
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
@@ -268,9 +269,11 @@ export default function HomeScreen() {
             onClose={closeBottomSheet}
             heading={heading}
           />
-        </View>        
+         
+        </View>    
+           
       </ScrollView>
-      <BottomBar />
+      
     </SafeAreaView>
   );
 }

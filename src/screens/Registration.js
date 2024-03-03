@@ -1,15 +1,35 @@
-import {SafeAreaView, View, Text, StyleSheet, TextInput, TouchableOpacity} from 'react-native';
+import {SafeAreaView, View, Text, StyleSheet, TextInput, TouchableOpacity, Alert} from 'react-native';
 import {useState} from 'react';
+import axios from 'axios';
 import Button from '../components/Button';
 import SocialButton from '../components/SocialButton';
 import {useNavigation} from '@react-navigation/native';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
 export default function Registration() {
   // const { name } = route.params;
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
   const navigation = useNavigation();
+
+  const handleRegister = async () => {
+    try {
+      const response = await axios.post('http://localhost:3000/api/users/register', {
+        name: name,
+        email: email,
+        password: password
+      });
+      console.log(response.data);
+      Alert.alert('Success', 'User registered successfully');
+      // Optionally, you can navigate to another screen after successful registration
+      navigation.navigate('Homepage');
+    } catch (error) {
+      console.error('Failed to register user:', error.message);
+      Alert.alert('Error', 'Failed to register user. Please try again.');
+    }
+  };
   
   return (
     <SafeAreaView style={styles.container}>
@@ -53,18 +73,28 @@ export default function Registration() {
 
         <View style={styles.inputContainer}>
           <Text style={styles.label}>Password</Text>
-          <TextInput
-            style={styles.input}
-            value={password}
-            onChangeText={text => setPassword(text)}
-            placeholder="Enter your password"
-            secureTextEntry
-          />
+          <View style={styles.passwordContainer}>
+            <TextInput
+              style={styles.input}
+              value={password}
+              onChangeText={(text) => setPassword(text)}
+              placeholder="Enter your password"
+              secureTextEntry={!showPassword} // Toggle secureTextEntry based on showPassword state
+            />
+            <TouchableOpacity
+              style={styles.eyeIconContainer}
+              onPress={() => setShowPassword(!showPassword)}>
+              <MaterialCommunityIcons
+                name={showPassword ? 'eye-off' : 'eye'}
+                style={styles.eyeIcon}
+              />
+            </TouchableOpacity>
+          </View>
         </View>
 
 
         <View>
-          <Button title="Sign Up" onPress={() => navigation.navigate('Connect')}/>
+          <Button title="Sign Up" onPress={handleRegister}/>
         </View>
 
         <View style={styles.optionContainer}>
@@ -140,6 +170,7 @@ const styles = StyleSheet.create({
     paddingVertical: 8,
     fontSize: 16,
     height: 53,
+    width: '100%'
   },
   spacing: {
     marginBottom: 5,
@@ -193,5 +224,21 @@ const styles = StyleSheet.create({
   txtSignUp: {
     color: '#F57B36',
     fontWeight: '400'
+  },
+  passwordContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    position: 'relative',
+  },
+
+  eyeIconContainer: {
+    position: 'absolute',
+    right: 10,
+    marginRight: 10
+  },
+
+  eyeIcon: {
+    fontSize: 24,
+    color: '#898996',
   },
 });

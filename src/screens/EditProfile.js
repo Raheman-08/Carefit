@@ -11,14 +11,17 @@ import React from 'react';
 import { useState } from 'react';
 import { avatar } from '../assets/image/avatar';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import Button from '../components/Button';
 import ImagePicker from 'react-native-image-crop-picker';
+import {useNavigation} from '@react-navigation/native';
 
 const EditProfile = () => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [profile, setProfile] = useState(null);
+  const navigation = useNavigation();
 
   const pickImage = () => {
     ImagePicker.openPicker({
@@ -35,7 +38,12 @@ const EditProfile = () => {
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.txtContainer}>
-        <Text style={styles.txtHeading}>Edit Profile</Text>
+      <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backArrow}>
+          <MaterialIcons name="arrow-back-ios-new" style={styles.backIcon} />
+        </TouchableOpacity>
+        <View style={styles.txtContainer}>
+          <Text style={styles.txtHeading}>Edit Profile</Text>
+        </View>
       </View>
 
       <View style={styles.profileContainer}>
@@ -107,6 +115,8 @@ const styles = StyleSheet.create({
   },
 
   txtContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
     margin: 16,
   },
 
@@ -184,6 +194,14 @@ const styles = StyleSheet.create({
     paddingVertical: 8,
     fontSize: 16,
     height: 53,
+  },
+  backArrow: {
+    marginRight: 0,
+  },
+
+  backIcon: {
+    fontSize: 28,
+    color: '#000',
   },
 });
 

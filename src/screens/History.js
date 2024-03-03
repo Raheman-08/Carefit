@@ -79,7 +79,6 @@ const styles = StyleSheet.create ({
 
   drpContainer: {
     marginHorizontal: 16,
-
   },
 
   input: {
@@ -100,7 +99,6 @@ const styles = StyleSheet.create ({
 
   heartContainer: {
     marginHorizontal: 16,
-
   },
 
   txtHeart: {
@@ -114,4 +112,4 @@ const styles = StyleSheet.create ({
   },
 });
 
-export default History
+export default History;

@@ -25,7 +25,7 @@ export default function WatchConnect() {
       <View style={styles.btnContainer}>
         <Button title="Search Devices" />
         <SocialButton title="Skip For Now" onPress={() => {
-          navigation.navigate('Home')
+          navigation.navigate('Main')
         }}/>
       </View>
     </SafeAreaView>

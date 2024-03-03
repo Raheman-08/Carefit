@@ -7,9 +7,11 @@ import History from '../History';
 
 const Bottom = createBottomTabNavigator();
 
-const BottomBar = () => {
+const BottomBar = (props) => {
+  console.log("propspropsprops",props)
   return (
-    <Bottom.Navigator>
+
+<Bottom.Navigator>
       {/* <Bottom.Screen
         name="Home"
         component={HomeScreen}

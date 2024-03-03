@@ -5,6 +5,7 @@ import {
   StyleSheet,
   TouchableOpacity,
   Switch,
+  ScrollView,
 } from 'react-native';
 import React from 'react';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
@@ -12,7 +13,7 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons';
 import {useState} from 'react';
-import { useNavigation } from '@react-navigation/native';
+import {useNavigation} from '@react-navigation/native';
 
 const Setting = () => {
   const [toggle, setToggle] = useState(false);
@@ -24,85 +25,83 @@ const Setting = () => {
         <Text style={styles.txtHeading}>Settings</Text>
       </View>
 
-      <View style={styles.accContainer}>
-        <Text style={styles.subHeading}>Account</Text>
+      <ScrollView>
+        <View style={styles.accContainer}>
+          <Text style={styles.subHeading}>Account</Text>
 
-        <View style={styles.innerContainer}>
-          <View style={styles.txtIcon}>
-            <MaterialCommunityIcons
-              style={styles.icon}
-              name="account-edit-outline"
-            />
-            <Text style={styles.menuHeading}>Edit Profile</Text>
+          <View style={styles.innerContainer}>
+            <View style={styles.txtIcon}>
+              <MaterialCommunityIcons
+                style={styles.icon}
+                name="account-edit-outline"
+              />
+              <Text style={styles.menuHeading}>Edit Profile</Text>
+            </View>
+            <TouchableOpacity onPress={() => navigation.navigate('Edit')}>
+              <SimpleLineIcons name="arrow-right" style={styles.iconOpen} />
+            </TouchableOpacity>
           </View>
-          <TouchableOpacity onPress={() => navigation.navigate('EditProfile')}>
-            <SimpleLineIcons name="arrow-right" style={styles.iconOpen} />
+        </View>
+
+        <View style={styles.genContainer}>
+          <Text style={styles.subHeading}>General</Text>
+
+          <View style={styles.innerContainer}>
+            <View style={styles.txtIcon}>
+              <MaterialCommunityIcons style={styles.icon} name="bell-outline" />
+              <Text style={styles.menuHeading}>Notification</Text>
+            </View>
+            <View>
+              <Switch
+                trackColor={{false: 'gray', true: '#00FF00'}}
+                thumbColor="white"
+                ios_backgroundColor="gray"
+                onValueChange={value => setToggle(value)}
+                value={toggle}
+              />
+            </View>
+          </View>
+
+          <View style={styles.spacing} />
+
+          <View style={styles.innerContainer}>
+            <View style={styles.txtIcon}>
+              <MaterialCommunityIcons
+                style={styles.icon}
+                name="cards-heart-outline"
+              />
+              <Text style={styles.menuHeading}>Health</Text>
+            </View>
+            <TouchableOpacity>
+              <SimpleLineIcons name="arrow-right" style={styles.iconOpen} />
+            </TouchableOpacity>
+          </View>
+
+          <View style={styles.spacing} />
+
+          <View style={styles.innerContainer}>
+            <View style={styles.txtIcon}>
+              <MaterialCommunityIcons style={styles.icon} name="lock-outline" />
+              <Text style={styles.menuHeading}>Privacy</Text>
+            </View>
+            <TouchableOpacity onPress={() => navigation.navigate('Privacy')}>
+              <SimpleLineIcons
+                name="arrow-right"
+                style={styles.iconOpen}
+              />
+            </TouchableOpacity>
+          </View>
+        </View>
+
+        <View style={styles.logoutContainer}>
+          <TouchableOpacity style={styles.innerContainer}>
+            <View style={styles.txtIcon}>
+              <MaterialIcons style={styles.logoutIcon} name="logout" />
+              <Text style={styles.menuHeading}>Log Out</Text>
+            </View>
           </TouchableOpacity>
         </View>
-      </View>
-
-      <View style={styles.genContainer}>
-        <Text style={styles.subHeading}>General</Text>
-
-        <View style={styles.innerContainer}>
-          <View style={styles.txtIcon}>
-            <MaterialCommunityIcons style={styles.icon} name="bell-outline" />
-            <Text style={styles.menuHeading}>Notification</Text>
-          </View>
-          <View>
-            <Switch
-              trackColor={{false: 'gray', true: '#00FF00'}}
-              thumbColor="white"
-              ios_backgroundColor="gray"
-              onValueChange={value => setToggle(value)}
-              value={toggle}
-            />
-          </View>
-        </View>
-
-        <View style={styles.spacing} />
-
-        <View style={styles.innerContainer}>
-          <View style={styles.txtIcon}>
-            <MaterialCommunityIcons
-              style={styles.icon}
-              name="cards-heart-outline"
-            />
-            <Text style={styles.menuHeading}>Health</Text>
-          </View>
-          <TouchableOpacity>
-            <SimpleLineIcons name="arrow-right" style={styles.iconOpen} />
-          </TouchableOpacity>
-        </View>
-
-        <View style={styles.spacing} />
-
-        <View style={styles.innerContainer}>
-          <View style={styles.txtIcon}>
-            <MaterialCommunityIcons
-              style={styles.icon}
-              name="lock-outline"
-            />
-            <Text style={styles.menuHeading}>Privacy</Text>
-          </View>
-          <TouchableOpacity>
-            <SimpleLineIcons name="arrow-right" style={styles.iconOpen} />
-          </TouchableOpacity>
-        </View>
-      </View>
-
-      <View style={styles.logoutContainer}>
-
-        <TouchableOpacity style={styles.innerContainer}>
-          <View style={styles.txtIcon}>
-            <MaterialIcons
-              style={styles.logoutIcon}
-              name="logout"
-            />
-            <Text style={styles.menuHeading}>Log Out</Text>
-          </View>
-        </TouchableOpacity>
-      </View>
+      </ScrollView>
     </SafeAreaView>
   );
 };
@@ -152,7 +151,7 @@ const styles = StyleSheet.create({
   innerContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginTop: 20,
+    marginTop: 10,
     justifyContent: 'space-between',
   },
 
@@ -167,11 +166,11 @@ const styles = StyleSheet.create({
 
   logoutIcon: {
     fontSize: 28,
-    color: '#F57B36'
+    color: '#F57B36',
   },
 
   iconOpen: {
-    fontSize: 23,
+    fontSize: 18,
   },
 
   txtIcon: {
