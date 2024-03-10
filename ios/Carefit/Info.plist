@@ -2,6 +2,8 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key></key>
+	<string></string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
 	<key>CFBundleDisplayName</key>
@@ -33,12 +35,20 @@
 	</dict>
 	<key>NSCameraUsageDescription</key>
 	<string>The Carefit app requests permission to open the camera.</string>
+	<key>NSBluetoothAlwaysUsageDescription</key>
+	<string>The Carefit app requests permission to use Bluetooth for connecting to devices.</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string></string>
 	<key>NSMicrophoneUsageDescription</key>
 	<string>The Carefit app requests permission to access the microphone.</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>The Carefit app requests permission to access your photo library.</string>
+	<key>NSHealthShareUsageDescription</key>
+	<string>Read and understand health data.</string>
+	<key>NSHealthUpdateUsageDescription</key>
+	<string>Share workout data with other apps.</string>
+	<key>NSHealthClinicalHealthRecordsShareUsageDescription</key>
+	<string>Read and understand clinical health data.</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>AntDesign.ttf</string>

@@ -23,7 +23,7 @@ import { Platform } from 'react-native';
 export const HomeTabNavigator = () => (
   <Bottom.Navigator
     screenOptions={{
-      tabBarStyle: {height: 90, gap: 20},
+      tabBarStyle: {height: 90},
       tabBarActiveTintColor: '#F57B36',
     }}>
     <Bottom.Screen

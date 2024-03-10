@@ -16,7 +16,7 @@ export default function Registration() {
 
   const handleRegister = async () => {
     try {
-      const response = await axios.post('http://localhost:3000/api/users/register', {
+      const response = await axios.post('http://192.168.1.107:3000/api/users/register', {
         name: name,
         email: email,
         password: password
@@ -24,7 +24,7 @@ export default function Registration() {
       console.log(response.data);
       Alert.alert('Success', 'User registered successfully');
       // Optionally, you can navigate to another screen after successful registration
-      navigation.navigate('Homepage');
+      navigation.navigate('Connect');
     } catch (error) {
       console.error('Failed to register user:', error.message);
       Alert.alert('Error', 'Failed to register user. Please try again.');

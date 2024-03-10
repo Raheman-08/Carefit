@@ -41,6 +41,7 @@
 		5E40BFB633B647B827E6B335 /* Pods-Carefit-CarefitTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Carefit-CarefitTests.release.xcconfig"; path = "Target Support Files/Pods-Carefit-CarefitTests/Pods-Carefit-CarefitTests.release.xcconfig"; sourceTree = "<group>"; };
 		75D7BBA6795905AB35353BEC /* Pods-Carefit.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Carefit.release.xcconfig"; path = "Target Support Files/Pods-Carefit/Pods-Carefit.release.xcconfig"; sourceTree = "<group>"; };
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = Carefit/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		865BCF942B9C8AAC003B3ECC /* Carefit.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = Carefit.entitlements; path = Carefit/Carefit.entitlements; sourceTree = "<group>"; };
 		97A9AD7CD0CDEEFFC84B7C70 /* Pods-Carefit-CarefitTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Carefit-CarefitTests.debug.xcconfig"; path = "Target Support Files/Pods-Carefit-CarefitTests/Pods-Carefit-CarefitTests.debug.xcconfig"; sourceTree = "<group>"; };
 		BCA90D31831A30BAFDFAAB1F /* Pods-Carefit.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Carefit.debug.xcconfig"; path = "Target Support Files/Pods-Carefit/Pods-Carefit.debug.xcconfig"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
@@ -86,6 +87,7 @@
 		13B07FAE1A68108700A75B9A /* Carefit */ = {
 			isa = PBXGroup;
 			children = (
+				865BCF942B9C8AAC003B3ECC /* Carefit.entitlements */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
 				13B07FB01A68108700A75B9A /* AppDelegate.mm */,
 				13B07FB51A68108700A75B9A /* Images.xcassets */,
@@ -465,6 +467,9 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = Carefit/Carefit.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = KCT26TSUU7;
 				ENABLE_BITCODE = NO;
@@ -481,6 +486,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = org.ali.Carefit;
 				PRODUCT_NAME = Carefit;
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
@@ -493,6 +499,9 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = Carefit/Carefit.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = KCT26TSUU7;
 				INFOPLIST_FILE = Carefit/Info.plist;
@@ -508,6 +517,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = org.ali.Carefit;
 				PRODUCT_NAME = Carefit;
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
 			};

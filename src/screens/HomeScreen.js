@@ -12,6 +12,7 @@ import {avatar} from '../assets/image/avatar';
 import Icon from 'react-native-vector-icons/AntDesign';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import FontAwesome6 from 'react-native-vector-icons/FontAwesome6';
+import Ionicons from 'react-native-vector-icons/Ionicons'
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
 import {useState, useEffect} from 'react';
 import {isToday} from 'date-fns';
@@ -21,8 +22,19 @@ import BottomDrawer from '../components/BottomDrawer';
 import InfoCard from '../components/InfoCard';
 // import BottomDrawer from '../components/BottomDrawer';
 import {useNavigation} from '@react-navigation/native';
+import AppleHealthKit from 'react-native-health';
+// import appleHealthKit, {} from 'react-native-health';
 import BottomBar from './Navigation/BottomBar';
-import { HomeTabNavigator } from '../../App';
+import {HomeTabNavigator} from '../../App';
+
+// const permissions = HealthKitPermissions();
+
+const permissions = {
+  permissions: {
+    read: [AppleHealthKit.Constants.Permissions.HeartRate, AppleHealthKit.Constants.Permissions.ActiveEnergyBurned, AppleHealthKit.Constants.Permissions.OxygenSaturation],
+    write: [AppleHealthKit.Constants.Permissions.ActiveEnergyBurned, AppleHealthKit.Constants.Permissions.OxygenSaturation, AppleHealthKit.Constants.Permissions.StepCount],
+  },
+};
 
 export default function HomeScreen() {
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
@@ -74,55 +86,197 @@ export default function HomeScreen() {
     hideDatePicker();
   };
 
+  // AppleHealthKit.initHealthKit();
+  // useEffect(() => {
+  //   AppleHealthKit.initHealthKit(permissions, (error) => {
+  //     if (error) {
+  //       console.log('[ERROR] Cannot grant permissions!');
+  //     } else {
+  //       console.log('HealthKit initialized successfully!');
+  //     }
+  //   });
+  // }, []);
+
+  const HEART_RATE = 220;
+  const CALORIES_BURN = 2_500;
+  const OXYGEN_LEVEL = 100;
+  const STEP_COUNT = 10_000;
+
+  const [hasPermissions, setHasPermissions] = useState(false);
+  // const [steps, setSteps] = useState(0)
+  const [heartRate, setHeartRate] = useState(0);
+  const [caloriesBurned, setCaloriesBurned] = useState(0);
+  const [oxygenLevel, setOxygenLevel] = useState(0);
+  const [stepCount, setStepCount] = useState(0);
+
+  const heartMeasure = (heartRate.toString());
+  const oxygenMeasure = (oxygenLevel.toString());
+  const calorieMeasure = (caloriesBurned.toString());
+  const stepMeasure = (stepCount.toString());
+
+  useEffect(() => {
+    AppleHealthKit.initHealthKit(permissions, error => {
+      if (error) {
+        console.log('[ERROR] Cannot grant permissions!');
+      }
+
+      setHasPermissions(true);
+    });
+  }, []);
+
+  useEffect(() => {
+    if (!hasPermissions) {
+      return;
+    }
+
+    let options = {
+      unit: 'bpm', // optional; default 'bpm'
+      startDate: new Date(2018, 10, 1).toISOString(), // required
+      endDate: new Date().toISOString(), // optional; default now
+      ascending: false, // optional; default false
+      limit: 1, // optional; default no limit
+    };
+
+    AppleHealthKit.getHeartRateSamples(options, (err, results) => {
+      if (err) {
+        console.log('Error fetching heart rate data: ', err);
+        return;
+      }
+
+      if (results && results.length > 0) {
+        console.log('Heart rate fetched successfully: ', results[0].value);
+        setHeartRate(results[0].value);
+      } else {
+        console.log('No heart rate data found');
+      }
+    });
+
+    // Calories Burn
+    let optionsCalories = {
+      startDate: new Date(2021, 0, 0).toISOString(), // required
+      endDate: new Date().toISOString(), // optional; default now
+      ascending: true, // optional
+      includeManuallyAdded: true, // optional
+    };
+  
+    AppleHealthKit.getActiveEnergyBurned(
+      optionsCalories,
+      (err, results) => {
+        if (err) {
+          console.log('Error fetching calorie data: ', err);
+          return;
+        }
+  
+        if (results && results.length > 0) {
+          console.log('Calorie data fetched successfully: ', results[0].value);
+          setCaloriesBurned(results[0].value);
+          // Assuming results[0].value contains the calorie data
+          // Handle the calorie data as needed, e.g., set state
+        } else {
+          console.log('No calorie data found');
+        }
+      }
+    );
+
+    let optionsOxygen = {
+      startDate: new Date(2021, 1, 1).toISOString(), // required
+      endDate: new Date().toISOString(), // optional; default now
+      ascending: false, // optional; default false
+      limit: 10, // optional; default no limit
+    };
+
+    AppleHealthKit.getOxygenSaturationSamples(
+      optionsOxygen,
+      (err, results) => {
+        if (err) {
+          console.log('Error fetching oxygen level: ', err);
+          return;
+        }
+  
+        if (results && results.length > 0) {
+          console.log('Oxygen Level fetched successfully: ', results[0].value);
+          setOxygenLevel(results[0].value);
+          // Assuming results[0].value contains the calorie data
+          // Handle the calorie data as needed, e.g., set state
+        } else {
+          console.log('No oxygen level found');
+        }
+      }
+    );
+
+    let optionsSteps = {
+      dstartDate: new Date().toISOString(), // Required for fetching oxygen saturation samples
+      endDate: new Date().toISOString(), // Optional; defaults to current date
+      includeManuallyAdded: false // Optional: defaults to true
+  };
+
+  AppleHealthKit.getStepCount(
+    optionsSteps,
+    (err, results) => {
+      if (err) {
+        console.log('Error fetching step counts: ', err);
+        return;
+      }
+
+      if (results && results.length > 0) {
+        console.log('Step count fetched successfully: ', results[0].value);
+        setStepCount(results[0].value);
+        // Assuming results[0].value contains the calorie data
+        // Handle the calorie data as needed, e.g., set state
+      } else {
+        console.log('No step count found');
+      }
+    }
+  );
+
+  }, [hasPermissions]);
+
+
   return (
     <SafeAreaView style={styles.container}>
-      
-        <View style={styles.headerContainer}>
-          <View style={styles.infoContainer}>
-            <View>
-              <Image source={avatar} />
-            </View>
-            <View>
-              <Text style={styles.txtName}>Hello, Michael👋</Text>
-              <Text style={styles.txtCalendar}>
-                {selectedDate
-                  ? isToday(selectedDate)
-                    ? selectedDate.toLocaleDateString('en-US', {
-                        weekday: 'short',
-                        day: 'numeric',
-                        month: 'long',
-                      })
-                    : selectedDate.toLocaleDateString('en-US', {
-                        weekday: 'short',
-                        day: 'numeric',
-                        month: 'long',
-                      })
-                  : 'Select a date'}
-              </Text>
-            </View>
+      <View style={styles.headerContainer}>
+        <View style={styles.infoContainer}>
+          <View>
+            <Image source={avatar} />
           </View>
-
-          <TouchableOpacity
-            style={styles.iconContainer}
-            onPress={showDatePicker}>
-            <DateTimePickerModal
-              isVisible={isDatePickerVisible}
-              mode="date"
-              onConfirm={handleConfirm}
-              onCancel={hideDatePicker}
-            />
-            <Icon name="calendar" style={styles.icon} />
-          </TouchableOpacity>
+          <View>
+            <Text style={styles.txtName}>Hello, Michael👋</Text>
+            <Text style={styles.txtCalendar}>
+              {selectedDate
+                ? isToday(selectedDate)
+                  ? selectedDate.toLocaleDateString('en-US', {
+                      weekday: 'short',
+                      day: 'numeric',
+                      month: 'long',
+                    })
+                  : selectedDate.toLocaleDateString('en-US', {
+                      weekday: 'short',
+                      day: 'numeric',
+                      month: 'long',
+                    })
+                : 'Select a date'}
+            </Text>
+          </View>
         </View>
 
-        <ScrollView>
+        <TouchableOpacity style={styles.iconContainer} onPress={showDatePicker}>
+          <DateTimePickerModal
+            isVisible={isDatePickerVisible}
+            mode="date"
+            onConfirm={handleConfirm}
+            onCancel={hideDatePicker}
+          />
+          <Icon name="calendar" style={styles.icon} />
+        </TouchableOpacity>
+      </View>
 
+      <ScrollView>
         <View style={styles.chartContainer}>
           <View>
             <ProgressRing
-              progress={0.7}
-              innerProgress={0.6}
-              middleProgress={0.5}
+              progress={caloriesBurned / CALORIES_BURN}
+              innerProgress={heartRate / HEART_RATE}
+              middleProgress={oxygenLevel / OXYGEN_LEVEL}
             />
           </View>
 
@@ -137,7 +291,7 @@ export default function HomeScreen() {
               </View>
 
               <View style={styles.msrContainer}>
-                <Text style={styles.measurement}>240</Text>
+                <Text style={styles.measurement}>{caloriesBurned.toString()}</Text>
                 <Text style={styles.unit}>kcal</Text>
               </View>
             </View>
@@ -153,8 +307,8 @@ export default function HomeScreen() {
               </View>
 
               <View style={styles.msrContainer}>
-                <Text style={styles.measurement}>120</Text>
-                <Text style={styles.unit}>bpm</Text>
+                <Text style={styles.measurement}>{oxygenLevel.toString()}</Text>
+                <Text style={styles.unit}>SpO2</Text>
               </View>
             </View>
 
@@ -170,8 +324,8 @@ export default function HomeScreen() {
               </View>
 
               <View style={styles.msrContainer}>
-                <Text style={styles.measurement}>100</Text>
-                <Text style={styles.unit}>sys</Text>
+                <Text style={styles.measurement}>{heartRate.toString()}</Text>
+                <Text style={styles.unit}>BPM</Text>
               </View>
             </View>
           </View>
@@ -197,7 +351,7 @@ export default function HomeScreen() {
                   style={{fontSize: 24, color: '#F15223'}}
                 />
               }
-              measurement="620.84"
+              measurement={calorieMeasure}
               unit="kcal"
               // onPress={() => navigation.navigate('CalorieDetail')}
               onPress={() => openBottomSheet('Calories Detail')}
@@ -211,7 +365,7 @@ export default function HomeScreen() {
                   style={{fontSize: 24, color: '#FF9416'}}
                 />
               }
-              measurement="74"
+              measurement={heartMeasure}
               unit="bpm"
               onPress={() => openBottomSheet('Heart Rate Details')}
             />
@@ -219,15 +373,15 @@ export default function HomeScreen() {
 
           <View style={styles.secondContainer}>
             <InfoCard
-              type="Stress"
+              type="Steps"
               icon={
-                <FontAwesome5
-                  name="brain"
+                <Ionicons
+                  name="footsteps"
                   style={{fontSize: 24, color: '#5F9BF4'}}
                 />
               }
-              measurement="90"
-              unit="stress level"
+              measurement={stepMeasure}
+              unit="Steps Count"
               onPress={() => openBottomSheet('Stress Level Details')}
             />
 
@@ -239,7 +393,7 @@ export default function HomeScreen() {
                   style={{fontSize: 24, color: '#4CB04C'}}
                 />
               }
-              measurement="620.84"
+              measurement={oxygenMeasure}
               unit="sp02"
               onPress={() => openBottomSheet('Oxygen Level Details')}
             />
@@ -261,19 +415,14 @@ export default function HomeScreen() {
           <Image source='.' />
         </View> */}
 
-        
-
         <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
           <BottomDrawer
             isVisible={bottomSheetVisible}
             onClose={closeBottomSheet}
             heading={heading}
           />
-         
-        </View>    
-           
+        </View>
       </ScrollView>
-      
     </SafeAreaView>
   );
 }

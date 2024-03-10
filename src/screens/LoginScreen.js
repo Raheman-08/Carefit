@@ -5,6 +5,7 @@ import {
   StyleSheet,
   TextInput,
   TouchableOpacity,
+  Alert
 } from 'react-native';
 import {useState} from 'react';
 import Button from '../components/Button';
@@ -20,92 +21,100 @@ export default function Login() {
   const [showPassword, setShowPassword] = useState(false);
   const navigation = useNavigation();
 
-  // const handleSubmit 
+  const handleLogin = async () => {
+    try {
+      const response = await axios.post("http://localhost:3000/api/users/login",{email,password})
+      console.log(response.data);
+      Alert.alert('Success', 'Logged in successfully');
+      // Optionally, you can navigate to another screen after successful login
+      // navigation.navigate('Connect');
+      navigation.navigate('Main');
+    } catch (error) {
+      console.error('Failed to login:', error);
+      Alert.alert('Error', 'Failed to login. Please try again.');
+    }
+  };
+  
 
   return (
     <SafeAreaView style={styles.container}>
-      {/* Form Heading */}
+    <View style={styles.txtContainer}>
+      <Text style={styles.txtHeading}>Sign In With Email</Text>
+      <Text style={styles.txtContent}>Input your registered account</Text>
+    </View>
 
-      <View style={styles.txtContainer}>
-        <Text style={styles.txtHeading}>Sign In With Email</Text>
-        <Text style={styles.txtContent}>Input you registered account</Text>
+    <View style={styles.formContainer}>
+      <View style={styles.inputContainer}>
+        <Text style={styles.label}>Email</Text>
+        <TextInput
+          style={styles.input}
+          value={email}
+          onChangeText={text => setEmail(text)}
+          placeholder="Enter your email"
+          keyboardType="email-address"
+          autoCapitalize="none"
+        />
       </View>
 
-      {/* // Form Fields */}
+      <View style={styles.spacing} />
 
-      <View style={styles.formContainer}>
-        <View style={styles.inputContainer}>
-          <Text style={styles.label}>Email</Text>
+      <View style={styles.inputContainer}>
+        <Text style={styles.label}>Password</Text>
+        <View style={styles.passwordContainer}>
           <TextInput
             style={styles.input}
-            value={email}
-            onChangeText={text => setEmail(text)}
-            placeholder="Enter your email"
-            keyboardType="email-address"
-            autoCapitalize="none"
+            value={password}
+            onChangeText={text => setPassword(text)}
+            placeholder="Enter your password"
+            secureTextEntry={!showPassword}
           />
-        </View>
-
-        <View style={styles.spacing} />
-
-        <View style={styles.inputContainer}>
-          <Text style={styles.label}>Password</Text>
-          <View style={styles.passwordContainer}>
-            <TextInput
-              style={styles.input}
-              value={password}
-              onChangeText={(text) => setPassword(text)}
-              placeholder="Enter your password"
-              secureTextEntry={!showPassword} // Toggle secureTextEntry based on showPassword state
-            />
-            <TouchableOpacity
-              style={styles.eyeIconContainer}
-              onPress={() => setShowPassword(!showPassword)}>
-              <MaterialCommunityIcons
-                name={showPassword ? 'eye-off' : 'eye'}
-                style={styles.eyeIcon}
-              />
-            </TouchableOpacity>
-          </View>
-        </View>
-
-        <View style={styles.forgotContainer}>
-          <Text style={styles.txtForgot} onPress = {() => navigation.navigate('ForgotPassword')}>Forgot Password?</Text>
-        </View>
-
-        <View style={styles.btnContainer}>
-          <Button title="Sign In" onPress={() => navigation.navigate('Main')} />
-        </View>
-
-        <View style={styles.optionContainer}>
-          <View style={{flexDirection: 'row', alignItems: 'center'}}>
-            <View style={styles.line} />
-            <View>
-              <Text style={styles.lineTxt}>Or</Text>
-            </View>
-            <View style={styles.line} />
-          </View>
-        </View>
-
-        <View style={styles.smButton}>
-          <SocialButton title="Sign In With Apple" />
-          <View style={styles.btnSpacing} />
-          <SocialButton title="Sign In With Google" />
-        </View>
-
-        <View style={styles.signUpContainer}>
-          <View>
-            <Text>Don't Have An Account?</Text>
-          </View>
           <TouchableOpacity
-            onPress={() => {
-              navigation.navigate('Register');
-            }}>
-            <Text style={styles.txtSignUp}>Sign Up Here</Text>
+            style={styles.eyeIconContainer}
+            onPress={() => setShowPassword(!showPassword)}>
+            <MaterialCommunityIcons
+              name={showPassword ? 'eye-off' : 'eye'}
+              style={styles.eyeIcon}
+            />
           </TouchableOpacity>
         </View>
       </View>
-    </SafeAreaView>
+
+      <View style={styles.forgotContainer}>
+        <Text style={styles.txtForgot} onPress={() => navigation.navigate('ForgotPassword')}>
+          Forgot Password?
+        </Text>
+      </View>
+
+      <View style={styles.btnContainer}>
+        <Button title="Sign In" onPress={handleLogin} />
+      </View>
+
+      <View style={styles.optionContainer}>
+        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+          <View style={styles.line} />
+          <View>
+            <Text style={styles.lineTxt}>Or</Text>
+          </View>
+          <View style={styles.line} />
+        </View>
+      </View>
+
+      <View style={styles.smButton}>
+        <SocialButton title="Sign In With Apple" />
+        <View style={styles.btnSpacing} />
+        <SocialButton title="Sign In With Google" />
+      </View>
+
+      <View style={styles.signUpContainer}>
+        <View>
+          <Text>Don't Have An Account?</Text>
+        </View>
+        <TouchableOpacity onPress={() => navigation.navigate('Register')}>
+          <Text style={styles.txtSignUp}>Sign Up Here</Text>
+        </TouchableOpacity>
+      </View>
+    </View>
+  </SafeAreaView>
   );
 }
 
