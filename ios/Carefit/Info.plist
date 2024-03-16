@@ -33,22 +33,22 @@
 		<key>NSAllowsLocalNetworking</key>
 		<true/>
 	</dict>
-	<key>NSCameraUsageDescription</key>
-	<string>The Carefit app requests permission to open the camera.</string>
 	<key>NSBluetoothAlwaysUsageDescription</key>
 	<string>The Carefit app requests permission to use Bluetooth for connecting to devices.</string>
+	<key>NSCameraUsageDescription</key>
+	<string>The Carefit app requests permission to open the camera.</string>
+	<key>NSHealthClinicalHealthRecordsShareUsageDescription</key>
+	<string>Read and understand clinical health data.</string>
+	<key>NSHealthShareUsageDescription</key>
+	<string>Read and understand health data.</string>
+	<key>NSHealthUpdateUsageDescription</key>
+	<string>Share workout data with other apps.</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string></string>
 	<key>NSMicrophoneUsageDescription</key>
 	<string>The Carefit app requests permission to access the microphone.</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>The Carefit app requests permission to access your photo library.</string>
-	<key>NSHealthShareUsageDescription</key>
-	<string>Read and understand health data.</string>
-	<key>NSHealthUpdateUsageDescription</key>
-	<string>Share workout data with other apps.</string>
-	<key>NSHealthClinicalHealthRecordsShareUsageDescription</key>
-	<string>Read and understand clinical health data.</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>AntDesign.ttf</string>

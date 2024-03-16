@@ -28,12 +28,22 @@ export default function Login() {
       Alert.alert('Success', 'Logged in successfully');
       // Optionally, you can navigate to another screen after successful login
       // navigation.navigate('Connect');
-      navigation.navigate('Main');
+      navigation.navigate('Connect');
     } catch (error) {
       console.error('Failed to login:', error);
       Alert.alert('Error', 'Failed to login. Please try again.');
     }
   };
+
+  // const handleLogin = async () => {
+  //   const success = await login(email, password);
+  //   if (success) {
+  //     Alert.alert('Success', 'Logged in successfully');
+  //     navigation.navigate('Main');
+  //   } else {
+  //     Alert.alert('Error', 'Failed to login. Please try again.');
+  //   }
+  // };
   
 
   return (

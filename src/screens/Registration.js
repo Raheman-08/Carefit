@@ -30,6 +30,16 @@ export default function Registration() {
       Alert.alert('Error', 'Failed to register user. Please try again.');
     }
   };
+
+//   const handleRegister = async () => {
+//     const success = await register(name, email, password);
+//     if (success) {
+//         Alert.alert('Success', 'User registered successfully');
+//         navigation.navigate('Connect');
+//     } else {
+//         Alert.alert('Error', 'Failed to register user. Please try again.');
+//     }
+// };
   
   return (
     <SafeAreaView style={styles.container}>

@@ -12,7 +12,7 @@ import {avatar} from '../assets/image/avatar';
 import Icon from 'react-native-vector-icons/AntDesign';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import FontAwesome6 from 'react-native-vector-icons/FontAwesome6';
-import Ionicons from 'react-native-vector-icons/Ionicons'
+import Ionicons from 'react-native-vector-icons/Ionicons';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
 import {useState, useEffect} from 'react';
 import {isToday} from 'date-fns';
@@ -31,8 +31,19 @@ import {HomeTabNavigator} from '../../App';
 
 const permissions = {
   permissions: {
-    read: [AppleHealthKit.Constants.Permissions.HeartRate, AppleHealthKit.Constants.Permissions.ActiveEnergyBurned, AppleHealthKit.Constants.Permissions.OxygenSaturation],
-    write: [AppleHealthKit.Constants.Permissions.ActiveEnergyBurned, AppleHealthKit.Constants.Permissions.OxygenSaturation, AppleHealthKit.Constants.Permissions.StepCount],
+    read: [
+      AppleHealthKit.Constants.Permissions.HeartRate,
+      AppleHealthKit.Constants.Permissions.ActiveEnergyBurned,
+      AppleHealthKit.Constants.Permissions.OxygenSaturation,
+      AppleHealthKit.Constants.Permissions.StepCount,
+      AppleHealthKit.Constants.Permissions.Steps,
+    ],
+    write: [
+      AppleHealthKit.Constants.Permissions.ActiveEnergyBurned,
+      AppleHealthKit.Constants.Permissions.OxygenSaturation,
+      AppleHealthKit.Constants.Permissions.StepCount,
+      AppleHealthKit.Constants.Permissions.Steps,
+    ],
   },
 };
 
@@ -98,8 +109,8 @@ export default function HomeScreen() {
   // }, []);
 
   const HEART_RATE = 220;
-  const CALORIES_BURN = 2_500;
-  const OXYGEN_LEVEL = 100;
+  const CALORIES_BURN = 2500;
+  const OXYGEN_LEVEL = 100 / 100;
   const STEP_COUNT = 10_000;
 
   const [hasPermissions, setHasPermissions] = useState(false);
@@ -109,10 +120,13 @@ export default function HomeScreen() {
   const [oxygenLevel, setOxygenLevel] = useState(0);
   const [stepCount, setStepCount] = useState(0);
 
-  const heartMeasure = (heartRate.toString());
-  const oxygenMeasure = (oxygenLevel.toString());
-  const calorieMeasure = (caloriesBurned.toString());
-  const stepMeasure = (stepCount.toString());
+  const heartMeasure = heartRate.toFixed();
+  const oxygenMeasure = Math.round(oxygenLevel * 100);
+  const calorieMeasure = Math.round(caloriesBurned.toString());
+  const stepMeasure = Math.round(stepCount.toString());
+
+  let today = new Date();
+let startDate = new Date(today.getFullYear(), today.getMonth(), today.getDate(), 6, 0, 0); // Set start time to 6:00 AM
 
   useEffect(() => {
     AppleHealthKit.initHealthKit(permissions, error => {
@@ -152,31 +166,30 @@ export default function HomeScreen() {
     });
 
     // Calories Burn
-    let optionsCalories = {
+    const optionsCalories = {
       startDate: new Date(2021, 0, 0).toISOString(), // required
       endDate: new Date().toISOString(), // optional; default now
       ascending: true, // optional
       includeManuallyAdded: true, // optional
     };
-  
-    AppleHealthKit.getActiveEnergyBurned(
-      optionsCalories,
-      (err, results) => {
-        if (err) {
-          console.log('Error fetching calorie data: ', err);
-          return;
-        }
-  
-        if (results && results.length > 0) {
-          console.log('Calorie data fetched successfully: ', results[0].value);
-          setCaloriesBurned(results[0].value);
-          // Assuming results[0].value contains the calorie data
-          // Handle the calorie data as needed, e.g., set state
-        } else {
-          console.log('No calorie data found');
-        }
+
+    AppleHealthKit.getActiveEnergyBurned(optionsCalories, (err, results) => {
+      if (err) {
+        console.log('Error fetching calorie data: ', err);
+        return;
       }
-    );
+
+      if (results && results.length > 0) {
+        console.log('Calorie data fetched successfully: ', results[0].value);
+        setCaloriesBurned(results[0].value);
+        // Assuming results[0].value contains the calorie data
+        // Handle the calorie data as needed, e.g., set state
+      } else {
+        console.log('No calorie data found');
+      }
+    });
+
+    //Oxygen Level
 
     let optionsOxygen = {
       startDate: new Date(2021, 1, 1).toISOString(), // required
@@ -185,52 +198,43 @@ export default function HomeScreen() {
       limit: 10, // optional; default no limit
     };
 
-    AppleHealthKit.getOxygenSaturationSamples(
-      optionsOxygen,
-      (err, results) => {
-        if (err) {
-          console.log('Error fetching oxygen level: ', err);
-          return;
-        }
-  
-        if (results && results.length > 0) {
-          console.log('Oxygen Level fetched successfully: ', results[0].value);
-          setOxygenLevel(results[0].value);
-          // Assuming results[0].value contains the calorie data
-          // Handle the calorie data as needed, e.g., set state
-        } else {
-          console.log('No oxygen level found');
-        }
-      }
-    );
-
-    let optionsSteps = {
-      dstartDate: new Date().toISOString(), // Required for fetching oxygen saturation samples
-      endDate: new Date().toISOString(), // Optional; defaults to current date
-      includeManuallyAdded: false // Optional: defaults to true
-  };
-
-  AppleHealthKit.getStepCount(
-    optionsSteps,
-    (err, results) => {
+    AppleHealthKit.getOxygenSaturationSamples(optionsOxygen, (err, results) => {
       if (err) {
-        console.log('Error fetching step counts: ', err);
+        console.log('Error fetching oxygen level: ', err);
         return;
       }
 
       if (results && results.length > 0) {
-        console.log('Step count fetched successfully: ', results[0].value);
-        setStepCount(results[0].value);
+        console.log('Oxygen Level fetched successfully: ', results[0].value);
+        setOxygenLevel(results[0].value);
         // Assuming results[0].value contains the calorie data
         // Handle the calorie data as needed, e.g., set state
       } else {
+        console.log('No oxygen level found');
+      }
+    });
+
+    //Step Count
+
+    let optionsSteps = {
+      startDate: (new Date(2024,2,11)).toISOString(), // required
+      endDate:   (new Date()).toISOString() // optional; default now
+    };
+    
+    AppleHealthKit.getDailyStepCountSamples(optionsSteps, (err, results) => {
+      if (err) {
+        console.log('Error fetching step counts: ', err);
+        return;
+      }
+    
+      if (results && results.length > 0) {
+        console.log('Step count fetched successfully: ', results[0].value);
+        setStepCount(results[0].value);
+      } else {
         console.log('No step count found');
       }
-    }
-  );
-
+    });
   }, [hasPermissions]);
-
 
   return (
     <SafeAreaView style={styles.container}>
@@ -276,7 +280,7 @@ export default function HomeScreen() {
             <ProgressRing
               progress={caloriesBurned / CALORIES_BURN}
               innerProgress={heartRate / HEART_RATE}
-              middleProgress={oxygenLevel / OXYGEN_LEVEL}
+              middleProgress={oxygenLevel * OXYGEN_LEVEL}
             />
           </View>
 
@@ -291,7 +295,9 @@ export default function HomeScreen() {
               </View>
 
               <View style={styles.msrContainer}>
-                <Text style={styles.measurement}>{caloriesBurned.toString()}</Text>
+                <Text style={styles.measurement}>
+                  {caloriesBurned.toString()}
+                </Text>
                 <Text style={styles.unit}>kcal</Text>
               </View>
             </View>
@@ -307,7 +313,9 @@ export default function HomeScreen() {
               </View>
 
               <View style={styles.msrContainer}>
-                <Text style={styles.measurement}>{oxygenLevel.toString()}</Text>
+                <Text style={styles.measurement}>
+                  {Math.round(oxygenLevel * 100)}%
+                </Text>
                 <Text style={styles.unit}>SpO2</Text>
               </View>
             </View>
@@ -324,7 +332,7 @@ export default function HomeScreen() {
               </View>
 
               <View style={styles.msrContainer}>
-                <Text style={styles.measurement}>{heartRate.toString()}</Text>
+                <Text style={styles.measurement}>{heartRate.toFixed()}</Text>
                 <Text style={styles.unit}>BPM</Text>
               </View>
             </View>
