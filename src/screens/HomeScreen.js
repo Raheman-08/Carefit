@@ -167,8 +167,11 @@ let startDate = new Date(today.getFullYear(), today.getMonth(), today.getDate(),
 
     // Calories Burn
     const optionsCalories = {
-      startDate: new Date(2021, 0, 0).toISOString(), // required
-      endDate: new Date().toISOString(), // optional; default now
+      // startDate: new Date(2021, 0, 0).toISOString(), // required
+      // endDate: new Date().toISOString(), // optional; default now
+      value: 2000,
+      startDate: new Date(2016, 6, 2, 6, 0, 0).toISOString(),
+      endDate: new Date(2023, 6, 2, 6, 30, 0).toISOString(),
       ascending: true, // optional
       includeManuallyAdded: true, // optional
     };
@@ -217,8 +220,11 @@ let startDate = new Date(today.getFullYear(), today.getMonth(), today.getDate(),
     //Step Count
 
     let optionsSteps = {
-      startDate: (new Date(2024,2,11)).toISOString(), // required
-      endDate:   (new Date()).toISOString() // optional; default now
+      // startDate: (new Date(2024,2,11)).toISOString(), // required
+      // endDate:   (new Date()).toISOString() // optional; default now
+      value: 100,
+      startDate: new Date(2016, 6, 2, 6, 0, 0).toISOString(),
+      endDate: new Date(2023, 6, 2, 6, 30, 0).toISOString(),
     };
     
     AppleHealthKit.getDailyStepCountSamples(optionsSteps, (err, results) => {

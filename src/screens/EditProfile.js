@@ -7,7 +7,7 @@ import {
   TouchableOpacity,
   TextInput,
 } from 'react-native';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useState } from 'react';
 import { avatar } from '../assets/image/avatar';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -15,6 +15,7 @@ import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import Button from '../components/Button';
 import ImagePicker from 'react-native-image-crop-picker';
 import {useNavigation} from '@react-navigation/native';
+import axios from 'axios';
 
 const EditProfile = () => {
   const [name, setName] = useState('');
@@ -34,6 +35,17 @@ const EditProfile = () => {
         setProfile(image.path)
       })
   };
+
+//  useEffect = () => {
+//    const getUser = async()=>{
+//     try {
+//       // const userId = 
+//       const user = await axios.get(`http://localhost:3000/api/users/${userId}`);
+//     } catch (error) {
+      
+//     }
+//    }
+//  }
 
   return (
     <SafeAreaView style={styles.container}>

@@ -6,18 +6,81 @@ import {
   TouchableOpacity,
   Switch,
   ScrollView,
+  Alert
 } from 'react-native';
+
 import React from 'react';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons';
+import Notification from '../components/Notification';
 import {useState} from 'react';
 import {useNavigation} from '@react-navigation/native';
 
 const Setting = () => {
   const [toggle, setToggle] = useState(false);
   const navigation = useNavigation();
+  const [showNotification, setShowNotification] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+
+  // const handleLogout = async () => {
+  //   setIsLoading(true);
+  //   try {
+  //     const cookies = await CookieManager.get('http://localhost');
+  //     console.log(cookies)
+  //     const response = await fetch(`http://localhost:3000/api/users/logout/${cookies}`, {
+  //       method: 'POST',
+  //       headers: {
+  //         'Content-Type': 'application/json',
+  //         // Add any additional headers if needed
+  //       },
+  //     });
+
+  //     if (response.ok) {
+  //       // Logout successful
+  //       Alert.alert('Logout Successful');
+  //       // Navigate to login screen or perform any other actions needed after logout
+  //       navigation.navigate('Login')
+  //     } else {
+  //       // Logout failed
+  //       Alert.alert('Logout Failed', 'Unable to logout at the moment. Please try again later.');
+  //     }
+  //   } catch (error) {
+  //     console.error('Error during logout:', error);
+  //     Alert.alert('Error', 'An error occurred while logging out. Please try again later.');
+  //   } finally {
+  //     setIsLoading(false);
+  //   }
+  // };
+  const handleLogout = () => {
+    // Perform logout actions here, such as clearing authentication tokens or resetting user state
+    // For now, let's just show an alert
+    Alert.alert(
+      'Log Out',
+      'Are you sure you want to log out?',
+      [
+        {
+          text: 'Cancel',
+          onPress: () => console.log('Cancel Pressed'),
+          style: 'cancel',
+        },
+        {
+          text: 'Log Out',
+          onPress: () => {
+            // Perform logout actions here
+            // For example:
+            // clearAuthenticationTokens();
+            // resetUserState();
+            console.log('User logged out');
+            navigation.navigate('Login')
+          },
+          style: 'destructive',
+        },
+      ],
+      {cancelable: false},
+    );
+  };
 
   return (
     <SafeAreaView style={styles.container}>
@@ -94,7 +157,7 @@ const Setting = () => {
         </View>
 
         <View style={styles.logoutContainer}>
-          <TouchableOpacity style={styles.innerContainer}>
+          <TouchableOpacity onPress={handleLogout} style={styles.innerContainer}>
             <View style={styles.txtIcon}>
               <MaterialIcons style={styles.logoutIcon} name="logout" />
               <Text style={styles.menuHeading}>Log Out</Text>

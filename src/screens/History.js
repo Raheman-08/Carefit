@@ -6,10 +6,10 @@ import HistoryChart from '../components/HistoryChart';
 
 
 const History = () => {
-  const Heartdata = [50, 10, 40, 95, 120, 200, 50];
+  const Heartdata = [56, 0, 64, 64, 66, 64, 65];
   const Oxygendata = [50, 10, 40, 95, 120, 200, 50];
-  const Stressdata = [50, 10, 40, 95, 120, 200, 50];
-  const Caloriedata = [50, 10, 40, 95, 120, 200, 50];
+  const Stressdata = [5210, 1186, 6136, 3866, 5141, 3686, 1897];
+  const Caloriedata = [240, 0, 160, 111, 131, 195, 90];
 
   const [selectedOption, setSelectedOption] = useState('');
 
@@ -45,7 +45,7 @@ const History = () => {
       </View>
 
       <View style={styles.heartContainer}>
-        <Text style={styles.txtHeart}>Stress Level</Text>
+        <Text style={styles.txtHeart}>Steps Count</Text>
         <HistoryChart data={Stressdata} />
       </View>
 

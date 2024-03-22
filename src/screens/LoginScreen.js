@@ -9,6 +9,7 @@ import {
 } from 'react-native';
 import {useState} from 'react';
 import Button from '../components/Button';
+// import CookieManager from '@react-native-cookies/cookies';
 import SocialButton from '../components/SocialButton';
 import axios from 'axios';
 import {useNavigation} from '@react-navigation/native';
@@ -23,9 +24,19 @@ export default function Login() {
 
   const handleLogin = async () => {
     try {
-      const response = await axios.post("http://localhost:3000/api/users/login",{email,password})
+      const response = await axios.post("http://192.168.157.104:3000/api/users/login",{email,password})
       console.log(response.data);
       Alert.alert('Success', 'Logged in successfully');
+
+    //   const { userId } = response.data;
+
+    // // Store user ID in cookies
+    // await CookieManager.setFromResponse('http://localhost:3000/', {
+    //   name: 'userId',
+    //   value: userId,
+    // });
+
+      // await Cookies.set('userId', response.data.userId);
       // Optionally, you can navigate to another screen after successful login
       // navigation.navigate('Connect');
       navigation.navigate('Connect');
